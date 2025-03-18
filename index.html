@@ -43,6 +43,7 @@
     // Ascolta le modifiche sugli eventi e invia al server
     timeline.on('update', function (event) {
       const updatedEvents = timeline.getItems();
+      console.log('Eventi aggiornati da inviare al server:', updatedEvents); // Aggiungi un log per vedere gli eventi inviati
       socket.emit('updateEvents', updatedEvents); // Invia gli eventi aggiornati al server
     });
   </script>
