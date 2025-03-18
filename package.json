@@ -1,14 +1,16 @@
 {
-  "name": "visjs-realtime",
+  "name": "visjs-realtime-timeline",
   "version": "1.0.0",
-  "description": "Timeline con Vis.js e WebSockets",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "socket.io": "^4.7.2",
-    "cors": "^2.8.5"
+    "express": "^4.17.1",
+    "socket.io": "^4.3.2"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "14.x"
   }
 }
