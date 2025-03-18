@@ -12,6 +12,8 @@ const io = new Server(server, {
     methods: ["GET", "POST"]
   }
 });
+// Abilita CORS per tutte le richieste
+app.use(cors()); // Questa riga abilita CORS per tutte le richieste in arrivo
 
 const PORT = process.env.PORT || 10000;
 const path = '/events.json'; // Percorso del file dove salviamo gli eventi
