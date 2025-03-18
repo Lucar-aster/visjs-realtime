@@ -14,7 +14,7 @@ const io = new Server(server, {
 });
 
 const PORT = process.env.PORT || 3000;
-const path = './events.json'; // Percorso del file dove salviamo gli eventi
+const path = '/events.json'; // Percorso del file dove salviamo gli eventi
 
 // Funzione per caricare gli eventi dal file JSON
 function loadEventsFromFile() {
