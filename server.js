@@ -56,7 +56,21 @@ io.on('connection', (socket) => {
     saveEventsToFile(); // Salva nel file
     io.emit('loadEvents', events); // Invia gli eventi aggiornati a tutti i client
   });
+// Gestire l'aggiunta di un nuovo evento
+  socket.on('addEvent', (newEvent) => {
+    console.log('Nuovo evento ricevuto per l\'aggiunta:', newEvent);
+    events.push(newEvent); // Aggiungi l'evento all'array
+    saveEventsToFile(); // Salva nel file
+    io.emit('loadEvents', events); // Invia gli eventi aggiornati a tutti i client
+  });
 
+  // Gestire l'eliminazione di un evento
+  socket.on('removeEvent', (eventId) => {
+    console.log('Evento ricevuto per l\'eliminazione:', eventId);
+    events = events.filter(event => event.id !== eventId); // Rimuovi l'evento dall'array
+    saveEventsToFile(); // Salva nel file
+    io.emit('loadEvents', events); // Invia gli eventi aggiornati a tutti i client
+  });
   socket.on('disconnect', () => {
     console.log("Un utente si è disconnesso");
   });
