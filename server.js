@@ -16,18 +16,30 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 3000;
 const path = './events.json'; // Percorso del file dove salviamo gli eventi
 
-// Carica gli eventi dal file
-let events = [];
-if (fs.existsSync(path)) {
-  const fileData = fs.readFileSync(path);
-  events = JSON.parse(fileData);
-} else {
-  events = []; // Se non esiste il file, inizializza con un array vuoto
+// Funzione per caricare gli eventi dal file JSON
+function loadEventsFromFile() {
+  try {
+    if (fs.existsSync(path)) {
+      const fileData = fs.readFileSync(path, 'utf8');
+      // Se il file è vuoto o non valido, restituisce un array vuoto
+      return fileData ? JSON.parse(fileData) : [];
+    }
+  } catch (error) {
+    console.error("Errore durante la lettura del file JSON:", error);
+  }
+  return []; // Restituisce un array vuoto se non c'è il file o se è vuoto
 }
+
+// Carica gli eventi all'avvio del server
+let events = loadEventsFromFile();
 
 // Funzione per salvare gli eventi nel file
 function saveEventsToFile() {
-  fs.writeFileSync(path, JSON.stringify(events, null, 2)); // Salva come JSON formattato
+  try {
+    fs.writeFileSync(path, JSON.stringify(events, null, 2)); // Salva come JSON formattato
+  } catch (error) {
+    console.error("Errore durante il salvataggio del file JSON:", error);
+  }
 }
 
 io.on('connection', (socket) => {
