@@ -46,6 +46,23 @@
       console.log('Eventi aggiornati da inviare al server:', updatedEvents); // Aggiungi un log per vedere gli eventi inviati
       socket.emit('updateEvents', updatedEvents); // Invia gli eventi aggiornati al server
     });
+    // Aggiungi un listener per la creazione di eventi (Ctrl+click)
+timeline.on('add', function (event) {
+  const newEvent = event.item; // Ottieni l'evento appena creato dalla timeline
+  console.log('Evento aggiunto:', newEvent); // Log per verificare l'evento
+  socket.emit('addEvent', newEvent); // Invia l'evento al server
+});
+    const socket = io.connect('https://visjs-server.onrender.com:10000');
+
+// Log per verificare la connessione
+socket.on('connect', () => {
+  console.log('Connessione al server WebSocket stabilita');
+});
+
+// Log per verificare eventuali errori
+socket.on('connect_error', (error) => {
+  console.error('Errore di connessione WebSocket:', error);
+});
   </script>
 </body>
 </html>
