@@ -12,6 +12,8 @@ const io = new Server(server, {
   }
 });
 
+const PORT = process.env.PORT || 3000; // Usa la porta assegnata da Render
+
 let events = [
   { id: 1, content: "Evento 1", start: "2025-03-01" },
   { id: 2, content: "Evento 2", start: "2025-03-15" },
@@ -35,6 +37,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('Server in ascolto su http://localhost:3000');
+server.listen(PORT, () => {
+  console.log(`Server in ascolto sulla porta ${PORT}`);
 });
