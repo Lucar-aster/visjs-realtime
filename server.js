@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const fs = require('fs'); // Per leggere/scrivere su file
 
 const app = express();
 const server = http.createServer(app);
@@ -12,13 +13,22 @@ const io = new Server(server, {
   }
 });
 
-const PORT = process.env.PORT || 3000; // Usa la porta assegnata da Render
+const PORT = process.env.PORT || 3000;
+const path = './events.json'; // Percorso del file dove salviamo gli eventi
 
-let events = [
-  { id: 1, content: "Evento 1", start: "2025-03-01" },
-  { id: 2, content: "Evento 2", start: "2025-03-15" },
-  { id: 3, content: "Evento 3", start: "2025-03-30" }
-];
+// Carica gli eventi dal file
+let events = [];
+if (fs.existsSync(path)) {
+  const fileData = fs.readFileSync(path);
+  events = JSON.parse(fileData);
+} else {
+  events = []; // Se non esiste il file, inizializza con un array vuoto
+}
+
+// Funzione per salvare gli eventi nel file
+function saveEventsToFile() {
+  fs.writeFileSync(path, JSON.stringify(events, null, 2)); // Salva come JSON formattato
+}
 
 io.on('connection', (socket) => {
   console.log("Un utente si è connesso");
@@ -26,10 +36,11 @@ io.on('connection', (socket) => {
   // Invia gli eventi esistenti al nuovo utente
   socket.emit('loadEvents', events);
 
-  // Ascolta quando un utente aggiunge/modifica un evento
+  // Ascolta quando un utente aggiunge o modifica un evento
   socket.on('updateEvents', (updatedEvents) => {
-    events = updatedEvents;
-    io.emit('loadEvents', events); // Aggiorna tutti i client
+    events = updatedEvents; // Aggiorna gli eventi
+    saveEventsToFile(); // Salva nel file
+    io.emit('loadEvents', events); // Invia gli eventi aggiornati a tutti i client
   });
 
   socket.on('disconnect', () => {
