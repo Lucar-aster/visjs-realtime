@@ -52,7 +52,6 @@ timeline.on('add', function (event) {
   console.log('Evento aggiunto:', newEvent); // Log per verificare l'evento
   socket.emit('addEvent', newEvent); // Invia l'evento al server
 });
-    const socket = io.connect('https://visjs-server.onrender.com:10000');
 
 // Log per verificare la connessione
 socket.on('connect', () => {
