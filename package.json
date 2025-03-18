@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
   "engines": {
     "node": "14.x"
   }
