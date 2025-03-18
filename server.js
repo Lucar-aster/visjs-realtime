@@ -37,6 +37,7 @@ let events = loadEventsFromFile();
 function saveEventsToFile() {
   try {
     fs.writeFileSync(path, JSON.stringify(events, null, 2)); // Salva come JSON formattato
+    console.log('File events.json aggiornato'); // Log per verificare che il file venga aggiornato
   } catch (error) {
     console.error("Errore durante il salvataggio del file JSON:", error);
   }
@@ -50,6 +51,7 @@ io.on('connection', (socket) => {
 
   // Ascolta quando un utente aggiunge o modifica un evento
   socket.on('updateEvents', (updatedEvents) => {
+    console.log('Eventi ricevuti dal client:', updatedEvents); // Log per vedere gli eventi ricevuti dal client
     events = updatedEvents; // Aggiorna gli eventi
     saveEventsToFile(); // Salva nel file
     io.emit('loadEvents', events); // Invia gli eventi aggiornati a tutti i client
